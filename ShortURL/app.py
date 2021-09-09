@@ -1,5 +1,6 @@
 from flask import Flask, g, render_template, session, redirect
 import sqlite3
+
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
@@ -12,10 +13,11 @@ import re, urllib
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = "Hello<I<am>Andrii!!!"
+app.config['SECRET_KEY'] = "Andrii_THe_best!"
 app.permanent_session_lifetime = datetime.timedelta(hours=1)
 
 DATABASE = 'ShortURL.db'
+
 
 class LinkForm(FlaskForm):
     name = StringField("Введите длинную ссылку", validators=[DataRequired()])
@@ -27,6 +29,7 @@ def get_db():
         db = g._database = sqlite3.connect(DATABASE)
     return db
 
+@app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
@@ -50,7 +53,7 @@ def generate_short_link(long_link):
             return short_link
         except:
             pass
-        
+
 @app.route('/', methods=["GET", "POST"])
 def que():
     session.permanent = True
